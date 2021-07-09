@@ -47,7 +47,9 @@ buttons.forEach((button) => {
     }
     else if(button.classList =='operator'){
         button.addEventListener('click', () =>{
-            inputs.operator = button.id;
+            if(inputs.valueOne != '') {
+                inputs.operator = button.id;
+            }
         });
     }
 });
@@ -58,5 +60,8 @@ evaluate.removeEventListener('click', () =>{
 });
 evaluate.addEventListener('click', () =>{
     operate(inputs.valueOne, inputs.valueTwo, inputs.operator);
+    inputs.valueOne = '';
+    inputs.valueTwo = '';
+    inputs.operator = '';
 })
 
