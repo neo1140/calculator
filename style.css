@@ -1,8 +1,30 @@
 h1{
     text-align: center;
 }
+button{
+    font-size: 20px;
+}
 #container{
+    display: flex;
+    flex-direction: row;
+}
+#numbers{
     display: grid;
+    grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 1fr);
-    grid-template-columns: repeat(3, 1fr);
+}
+#operators{
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+}
+button.number{
+    height: 100px;
+    width: 100px;
+
+}
+button#clear{
+    width: 300px;
+}
+button.operator{
+    width: 150px;
 }
