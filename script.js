@@ -15,7 +15,7 @@ const inputs = {
 function operate(x, y, operator) {
 let answer;
 switch(operator) {
-    case '+': answer = calculator.add(x, y);
+    case '+': answer = calculator.add(parseFloat(x), parseFloat(y));
     break;
     case '-': answer = calculator.subtract(x, y);
     break;
@@ -31,18 +31,35 @@ switch(operator) {
     break;
     default: answer = 0;
 }
-console.log(answer);
+answer.toFixed(8);
+inputs.valueOne = answer;
+return answer;
 }
-//Adding event listener to all the buttons except for the = button
-const buttons = document.querySelectorAll('button');    
+//Adding animation to button clicks
+const buttons = document.querySelectorAll('button');
+const display = document.getElementById('display');
+buttons.forEach((button) =>{
+    button.addEventListener('click', () =>{
+        button.classList.add('clicked');
+    });
+});
+buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
+function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('clicked');
+  }
+  //Adding event listener to all the buttons except for the = button
 buttons.forEach((button) => {
     if(isFinite(button.id)){
     button.addEventListener('click', () => {
         if(inputs.operator == ''){
-            inputs.valueOne += button.id; 
+            inputs.valueOne += button.id;
+            display.textContent = inputs.valueOne;
         }
-        else
+        else{
             inputs.valueTwo += button.id;
+            display.textContent = inputs.valueTwo;
+        }
     });
     }
     else if(button.classList =='operator'){
@@ -59,9 +76,9 @@ evaluate.removeEventListener('click', () =>{
     inputs.operator = button.id;
 });
 evaluate.addEventListener('click', () =>{
-    operate(inputs.valueOne, inputs.valueTwo, inputs.operator);
-    inputs.valueOne = '';
+    display.textContent =   operate(inputs.valueOne, inputs.valueTwo, inputs.operator);;
     inputs.valueTwo = '';
     inputs.operator = '';
+    
 })
 

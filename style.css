@@ -1,5 +1,18 @@
+body{
+    display: grid;
+}
 h1{
     text-align: center;
+}
+#display{
+background-color: rgba(163, 154, 154, 0.76);
+width: 450px;
+height: 100px;
+text-align: right;
+justify-content: center;
+font-size: 80px;
+border-style: solid;
+justify-self: center;
 }
 button{
     font-size: 20px;
@@ -7,6 +20,9 @@ button{
 #container{
     display: flex;
     flex-direction: row;
+    border-style: solid;
+    width: 450px;
+    justify-self: center;
 }
 #numbers{
     display: grid;
@@ -27,4 +43,9 @@ button#clear{
 }
 button.operator{
     width: 150px;
+}
+button.clicked{
+    transform: scale(.95);
+    background-color: black;
+    transition: .05s;
 }
