@@ -23,17 +23,19 @@ switch(operator) {
     break;
     case '/': 
     if(y == 0) {
-        alert('You goof! You can\'t divide by zero!');
+        inputs.valueTwo = '';
+        inputs.valueOne = '';
+        inputs.operator = '';
+        return 'No zero division!';
     }
     else {
         answer = calculator.divide(x, y);
     }
     break;
-    default: answer = 0;
+    default: answer = inputs.valueOne;
 }
-answer.toFixed(8);
-inputs.valueOne = answer;
-return answer;
+inputs.valueOne = (Math.round(answer * 10000000) / 10000000).toString();
+return Math.round(answer * 10000000) / 10000000;
 }
 //Adding animation to button clicks
 const buttons = document.querySelectorAll('button');
@@ -66,19 +68,79 @@ buttons.forEach((button) => {
         button.addEventListener('click', () =>{
             if(inputs.valueOne != '') {
                 inputs.operator = button.id;
+                display.textContent = inputs.valueOne + inputs.operator;
             }
         });
     }
 });
 //Adding event listener to the = button to call the operate function
-const evaluate = document.getElementById('=');
+const evaluate = document.getElementById('equal');
 evaluate.removeEventListener('click', () =>{
     inputs.operator = button.id;
 });
 evaluate.addEventListener('click', () =>{
-    display.textContent =   operate(inputs.valueOne, inputs.valueTwo, inputs.operator);;
+    display.textContent = operate(inputs.valueOne, inputs.valueTwo, inputs.operator);
     inputs.valueTwo = '';
-    inputs.operator = '';
-    
+    inputs.operator = '';   
 })
-
+// Adding event listener to the clear button
+const clear = document.getElementById('clear')
+function clearFunction() {
+    display.textContent = '0';
+    inputs.valueOne ='';
+    inputs.valueTwo ='';
+    inputs.operator ='';
+}
+clear.addEventListener('click', () => {
+clearFunction();
+});
+// Adding event listener for the . button
+point = document.getElementById('.')
+point.addEventListener('click', () => {
+    if(inputs.operator == ''){
+        if(display.textContent.includes('.')){
+            return;
+        }
+        inputs.valueOne += point.id;
+        display.textContent = inputs.valueOne;
+    }
+    else{
+        if(display.textContent.includes('.') && inputs.valueTwo != ''){
+            return;
+        }
+        inputs.valueTwo += point.id;
+        display.textContent = inputs.valueTwo;
+    }
+});
+// Adding event listener for the backspace button
+back = document.getElementById('c')
+back.addEventListener('click', () => {
+    if(display.textContent.includes('+') || display.textContent.includes('-') || display.textContent.includes('*') || display.textContent.includes('/')){
+        inputs.operator = '';
+        display.textContent = inputs.valueOne;
+    }
+    else if(inputs.valueOne == display.textContent){
+       deleteArray = Array.from(inputs.valueOne);
+       deleteArray.pop();
+       inputs.valueOne = deleteArray.join('');
+       if(deleteArray.length > 0) {
+        display.textContent = inputs.valueOne;
+       }
+       else{
+        display.textContent = '0';
+        inputs.valueOne = '';
+       }
+    };
+    if(inputs.valueTwo == display.textContent){
+       deleteArray = Array.from(inputs.valueTwo);
+       deleteArray.pop();
+       inputs.valueTwo = deleteArray.join('');
+       if(deleteArray.length > 0) {
+        display.textContent = inputs.valueTwo;
+       }
+       else{
+        display.textContent = inputs.valueOne + inputs.operator;
+        inputs.valueTwo = '';
+       }
+    }
+});
