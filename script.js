@@ -57,10 +57,12 @@ buttons.forEach((button) => {
         if(inputs.operator == ''){
             inputs.valueOne += button.id;
             display.textContent = inputs.valueOne;
+            document.activeElement.blur();
         }
         else{
             inputs.valueTwo += button.id;
             display.textContent = inputs.valueTwo;
+            document.activeElement.blur();
         }
     });
     }
@@ -69,6 +71,7 @@ buttons.forEach((button) => {
             if(inputs.valueOne != '') {
                 inputs.operator = button.id;
                 display.textContent = inputs.valueOne + inputs.operator;
+                document.activeElement.blur();
             }
         });
     }
@@ -97,24 +100,76 @@ clearFunction();
 // Adding event listener for the . button
 point = document.getElementById('.')
 point.addEventListener('click', () => {
-    if(inputs.operator == ''){
-        if(display.textContent.includes('.')){
-            return;
-        }
-        inputs.valueOne += point.id;
-        display.textContent = inputs.valueOne;
-    }
-    else{
-        if(display.textContent.includes('.') && inputs.valueTwo != ''){
-            return;
-        }
-        inputs.valueTwo += point.id;
-        display.textContent = inputs.valueTwo;
-    }
+    pointFunction();
 });
 // Adding event listener for the backspace button
 back = document.getElementById('c')
 back.addEventListener('click', () => {
+    backspace()
+});
+//Keyboard support
+document.addEventListener('keyup', (e) => {
+    switch(e.key) {
+    case 'Enter' :
+        display.textContent = operate(inputs.valueOne, inputs.valueTwo, inputs.operator);
+        inputs.valueTwo = '';
+        inputs.operator = ''; 
+        break;
+    case 'Backspace' :
+        backspace();
+        break;
+    case '.' :
+        pointFunction();
+        break
+    case 'Escape' :
+        clearFunction();
+        break
+    case '+':
+        if(inputs.valueOne != '') {
+            inputs.operator = e.key;
+            display.textContent = inputs.valueOne + inputs.operator;
+            document.activeElement.blur();
+        }
+    break
+    case '-':
+        if(inputs.valueOne != '') {
+            inputs.operator = e.key;
+            display.textContent = inputs.valueOne + inputs.operator;
+            document.activeElement.blur();
+        }
+    break
+    case '*':
+        if(inputs.valueOne != '') {
+            inputs.operator = e.key;
+            display.textContent = inputs.valueOne + inputs.operator;
+            document.activeElement.blur();
+        }
+    break
+    case '/':
+        console.log(e);
+        if(inputs.valueOne != '') {
+            inputs.operator = e.key;
+            display.textContent = inputs.valueOne + inputs.operator;
+            document.activeElement.blur();
+        }
+    break
+    default : 
+    if(isFinite(e.key))
+        if(inputs.operator == ''){
+            inputs.valueOne += e.key;
+            display.textContent = inputs.valueOne;
+            document.activeElement.blur();
+        }
+        else{
+            inputs.valueTwo += e.key;
+            display.textContent = inputs.valueTwo;
+            document.activeElement.blur();
+        }
+    break;
+}
+});
+//Backspace Function
+function backspace() {
     if(display.textContent.includes('+') || display.textContent.includes('-') || display.textContent.includes('*') || display.textContent.includes('/')){
         inputs.operator = '';
         display.textContent = inputs.valueOne;
@@ -143,4 +198,21 @@ back.addEventListener('click', () => {
         inputs.valueTwo = '';
        }
     }
-});
+}
+//Function for . funcionality
+function pointFunction() {
+    if(inputs.operator == ''){
+        if(display.textContent.includes('.')){
+            return;
+        }
+        inputs.valueOne += point.id;
+        display.textContent = inputs.valueOne;
+    }
+    else{
+        if(display.textContent.includes('.') && inputs.valueTwo != ''){
+            return;
+        }
+        inputs.valueTwo += point.id;
+        display.textContent = inputs.valueTwo;
+    }
+};
