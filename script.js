@@ -174,11 +174,9 @@ function backspace() {
         inputs.operator = '';
         display.textContent = inputs.valueOne;
     }
-    else if(inputs.valueOne == display.textContent){
-       deleteArray = Array.from(inputs.valueOne);
-       deleteArray.pop();
-       inputs.valueOne = deleteArray.join('');
-       if(deleteArray.length > 0) {
+    else if(inputs.valueOne == display.textContent && inputs.valueTwo == ''){
+        inputs.valueOne = inputs.valueOne.slice(0, (inputs.valueOne.length - 1));
+       if(inputs.valueOne.length > 0) {
         display.textContent = inputs.valueOne;
        }
        else{
@@ -187,10 +185,8 @@ function backspace() {
        }
     };
     if(inputs.valueTwo == display.textContent){
-       deleteArray = Array.from(inputs.valueTwo);
-       deleteArray.pop();
-       inputs.valueTwo = deleteArray.join('');
-       if(deleteArray.length > 0) {
+       inputs.valueTwo = inputs.valueTwo.slice(0, (inputs.valueTwo.length -1));
+       if(inputs.valueTwo.length > 0) {
         display.textContent = inputs.valueTwo;
        }
        else{
